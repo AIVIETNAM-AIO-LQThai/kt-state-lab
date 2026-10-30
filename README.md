@@ -9,7 +9,7 @@
 Knowledge Tracing (KT) predicts whether a student will answer an upcoming question correctly given their prior interactions:
 
 $$
-\hat p_{u,t}=P(y_{u,t}=1\mid H_{u,<t},q_{u,t},x_{u,t}^{\mathrm{allowed}}).
+\hat p_{u,t}=P(y_{u,t}=1\mid H_{u,\lt t},q_{u,t},x_{u,t}^{\mathrm{allowed}}).
 $$
 
 Here $H_{u,<t}$ contains the student's **past** questions and responses, $q_{u,t}$ is the current question, $y_{u,t}\in\{0,1\}$ is its correctness label, and $x^{\mathrm{allowed}}$ contains metadata permitted by the evaluation protocol.
