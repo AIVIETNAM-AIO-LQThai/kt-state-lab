@@ -7,6 +7,7 @@ import unittest
 from pathlib import Path
 
 from ktlab.data.cli import main, run_pipeline
+from ktlab.data.schema import OPTIONAL_COLUMNS, REQUIRED_COLUMNS
 from tests.support import FIXTURE, HEADER, row, write_csv
 
 
@@ -31,6 +32,12 @@ class CliTests(unittest.TestCase):
             quality = json.loads((Path(tmp) / "data_quality.json").read_text(encoding="utf-8"))
             self.assertTrue(quality["ok"])
             self.assertEqual(quality["rows_rejected"], 0)
+            self.assertEqual(set(quality["missing_by_column"]), set(REQUIRED_COLUMNS))
+            self.assertEqual(
+                set(quality["optional_missing_by_column"]), set(OPTIONAL_COLUMNS)
+            )
+            self.assertEqual(quality["optional_missing_by_column"]["question_text"], 30)
+            self.assertEqual(quality["optional_missing_by_column"]["timestamp"], 0)
             counts = manifest["counts"]["interactions"]
             self.assertEqual(sum(counts.values()), 30)
             self.assertEqual(

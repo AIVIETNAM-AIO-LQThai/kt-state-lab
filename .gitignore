@@ -8,5 +8,6 @@ venv/
 outputs/
 data/raw/
 
-# Local session notes
+# Local session notes and agent instructions
 NOTES.md
+AGENTS.md

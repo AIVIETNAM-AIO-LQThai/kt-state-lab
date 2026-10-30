@@ -25,6 +25,10 @@ whole file, reports all errors, and aborts. `--allow-invalid` drops bad rows and
 records them in `data_quality.json`, but the run still fails if fewer than 3 valid
 students remain.
 
+`data_quality.json` reports blank required cells under `missing_by_column` and
+blank optional cells under `optional_missing_by_column` (`timestamp`,
+`question_text`). A blank optional value is not an error.
+
 Rejected cases include blank required fields, a non-integer `step`, `correct`
 outside `{0,1}`, duplicate `(student_id, interaction_id)`, duplicate
 `(student_id, step)`, unparseable timestamps, and timestamps that go backwards

@@ -9,7 +9,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from .schema import CANONICAL_COLUMNS, KC_SEPARATOR, REQUIRED_COLUMNS, Interaction
+from .schema import KC_SEPARATOR, OPTIONAL_COLUMNS, REQUIRED_COLUMNS, Interaction
 
 
 class DataContractError(ValueError):
@@ -29,6 +29,7 @@ class Audit:
     rows_read: int = 0
     errors: list[dict[str, Any]] = field(default_factory=list)
     missing_by_column: dict[str, int] = field(default_factory=dict)
+    optional_missing_by_column: dict[str, int] = field(default_factory=dict)
 
     @property
     def ok(self) -> bool:
@@ -45,6 +46,7 @@ class Audit:
             "rows_valid": self.rows_read - self.rows_rejected,
             "rows_rejected": self.rows_rejected,
             "missing_by_column": self.missing_by_column,
+            "optional_missing_by_column": self.optional_missing_by_column,
             "errors": self.errors,
         }
 
@@ -76,7 +78,8 @@ def load_interactions(
     """
     path = Path(path)
     audit = Audit()
-    audit.missing_by_column = {name: 0 for name in CANONICAL_COLUMNS}
+    audit.missing_by_column = {name: 0 for name in REQUIRED_COLUMNS}
+    audit.optional_missing_by_column = {name: 0 for name in OPTIONAL_COLUMNS}
 
     with path.open("r", encoding="utf-8-sig", newline="") as handle:
         reader = csv.DictReader(handle)
@@ -92,9 +95,12 @@ def load_interactions(
         timestamps: dict[int, datetime] = {}
         for line_no, raw in enumerate(reader, start=2):
             audit.rows_read += 1
-            for name in CANONICAL_COLUMNS:
+            for name in REQUIRED_COLUMNS:
                 if not (raw.get(name) or "").strip():
                     audit.missing_by_column[name] += 1
+            for name in OPTIONAL_COLUMNS:
+                if not (raw.get(name) or "").strip():
+                    audit.optional_missing_by_column[name] += 1
 
             student_id = (raw.get("student_id") or "").strip()
             interaction_id = (raw.get("interaction_id") or "").strip()
