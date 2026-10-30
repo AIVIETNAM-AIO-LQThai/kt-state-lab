@@ -33,6 +33,19 @@ def _frequency(rows: list[Interaction], field: str) -> Counter[str]:
     return Counter(kc for row in rows for kc in row.kc_ids)
 
 
+def _kc_transitions(
+    by_student: dict[str, list[Interaction]],
+) -> Counter[tuple[str, str]]:
+    transitions: Counter[tuple[str, str]] = Counter()
+    for history in by_student.values():
+        ordered = sorted(history, key=lambda row: row.step)
+        for previous, current in zip(ordered, ordered[1:]):
+            for source in previous.kc_ids:
+                for target in current.kc_ids:
+                    transitions[(source, target)] += 1
+    return transitions
+
+
 def _long_tail(counts: Counter[str]) -> dict[str, Any]:
     frequencies = sorted(counts.values())
     return {
@@ -73,7 +86,6 @@ def summarize(
 
     first_seen: dict[tuple[str, str], int] = {}
     gaps: list[float] = []
-    transitions: Counter[tuple[str, str]] = Counter()
     for student_id, history in by_student.items():
         ordered = sorted(history, key=lambda row: row.step)
         last_ts: datetime | None = None
@@ -86,10 +98,6 @@ def summarize(
                     if last_ts is not None:
                         gaps.append((ts - last_ts).total_seconds())
                     last_ts = ts
-        for previous, current in zip(ordered, ordered[1:]):
-            for source in previous.kc_ids:
-                for target in current.kc_ids:
-                    transitions[(source, target)] += 1
 
     first_seen_buckets: Counter[str] = Counter(
         str(step) if step <= 15 else ">15" for step in first_seen.values()
@@ -205,13 +213,7 @@ def write_eda(
             ({"id": key, "count": count} for key, count in sorted(counts.items())),
         )
 
-    transitions: Counter[tuple[str, str]] = Counter()
-    for history in by_student.values():
-        ordered = sorted(history, key=lambda row: row.step)
-        for previous, current in zip(ordered, ordered[1:]):
-            for source in previous.kc_ids:
-                for target in current.kc_ids:
-                    transitions[(source, target)] += 1
+    transitions = _kc_transitions(by_student)
     write_csv(
         out_dir / "kc_transitions.csv",
         ("from_kc", "to_kc", "count"),
