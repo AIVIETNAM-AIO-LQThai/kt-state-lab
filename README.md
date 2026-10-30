@@ -256,7 +256,9 @@ Export figure PNG plus SVG where useful and the underlying numeric CSV/NPZ/Parqu
 
 ## 8. Proposed repository layout
 
-_Target structure; files below are not claimed to exist yet._
+_Target structure. The M0 data pipeline now exists under `src/ktlab/data/` with
+tests in `tests/` and the contract in `docs/protocols/cs_s_splits.md`; the other
+paths below are still planned._
 
 ```text
 kt-state-lab/
@@ -317,6 +319,16 @@ outputs/<experiment_id>/
 ```
 
 Keep shared code in reusable modules and notebooks focused on scientific explanation and exploration. Avoid duplicating large model implementations across notebooks.
+
+The M0 pipeline is stdlib-only and reproducible from a canonical CSV:
+
+```powershell
+$env:PYTHONPATH = "src"
+python -m ktlab.data --input data/raw/<dataset>.csv --out outputs/<experiment_id>
+python -m unittest discover -s tests -t . -v
+```
+
+It writes student-disjoint splits, CS-S support/query examples, train-only ID maps, hashed manifests, data-quality reports, and EDA tables. See `docs/protocols/cs_s_splits.md` and `docs/protocols/feature_permissions.md`.
 
 ## 9. Milestones and contribution rules
 
