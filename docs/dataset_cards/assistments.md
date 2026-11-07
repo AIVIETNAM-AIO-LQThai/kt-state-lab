@@ -1,6 +1,7 @@
 # Dataset card: ASSISTments
 
-**Status: not acquired.** No ASSISTments rows are committed to this repository.
+**Status: raw file present locally; provenance and terms are unverified.** No
+ASSISTments rows are committed to this repository.
 
 ## Why this family
 
@@ -42,14 +43,26 @@ dictionary. Do not infer a mapping from column names alone.
 
 | Canonical column | Source column | Notes |
 | --- | --- | --- |
-| `student_id` | | pseudonymous ID |
-| `interaction_id` | | must be unique per row |
-| `step` | | chronological within student, starting at 1 |
-| `question_id` | | |
-| `kc_ids` | | `;`-separated if multi-KC |
-| `correct` | | 0/1 only |
-| `timestamp` | | ISO-8601 if available |
-| `question_text` | | optional; check licensing |
+| `student_id` | `user_id` | Remapped to contiguous pseudonymous integers; source IDs are not output. |
+| `interaction_id` | `order_id` | Preserved as a string; verified unique in the local raw file. |
+| `step` | source row order | Counted per student in file order; source has no timestamp column. |
+| `question_id` | `problem_id` | Remapped to contiguous integers. |
+| `kc_ids` | `skill_id` | Remapped to integer strings; `NA` rows are excluded and counted. |
+| `correct` | `correct` | Only exact `0` and `1` values are retained. |
+| `timestamp` | — | Not present in the local raw file. |
+| `question_text` | — | Not included in the adapter output. |
+
+Run the adapter from the repository root (requires the project dependencies):
+
+```bash
+python3 scripts/adapt_assistments_2009.py
+```
+
+By default, it reads `data/raw/assistments_2009.csv` without modifying it and
+writes `outputs/assistments_2009/canonical.csv`. It prints aggregate input,
+output, and exclusion counts without printing source identifiers. Sequential
+IDs are pseudonyms, not anonymization; keep the derived student-level file out
+of Git as well.
 
 ## Known limitations to verify before use
 
