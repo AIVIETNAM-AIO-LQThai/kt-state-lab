@@ -6,7 +6,9 @@ __pycache__/
 .venv-maml/
 venv/
 
-outputs/
+*.pt
+*.csv
+*.json
 data/raw/
 
 # Local session notes and agent instructions
