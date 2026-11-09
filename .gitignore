@@ -5,8 +5,10 @@ __pycache__/
 .venv/
 venv/
 
-outputs/
 data/raw/
+*.json
+*.pt
+*.csv
 
 # Local session notes and agent instructions
 NOTES.md
