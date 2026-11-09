@@ -10,3 +10,6 @@ Canonical input file name: `<dataset>_<version>.csv`, for example
 Do not paste raw rows, student identifiers, or screenshots of student data into
 issues, notebooks, or dataset cards. Record checksums and aggregate counts
 instead.
+
+**kc_id** is Knowledge Component ID,
+**K** is the number of raw observed interactions
