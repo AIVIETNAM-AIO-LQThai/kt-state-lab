@@ -1,0 +1,9 @@
+{
+  "cohort_size": 20,
+  "split": 1,
+  "inner_steps": 2,
+  "inner_lr": 0.005,
+  "best_epoch": 8,
+  "val_accuracy": 0.6702775897088694,
+  "val_bce": 0.6301255874466646
+}

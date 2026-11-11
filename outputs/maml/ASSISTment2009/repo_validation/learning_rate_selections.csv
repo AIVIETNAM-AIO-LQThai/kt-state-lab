@@ -1,0 +1,4 @@
+inner_steps,inner_lr,selections
+1,0.001,6
+1,0.005,9
+2,0.005,15

@@ -1,0 +1,16 @@
+cohort_size,split,inner_steps,inner_lr,best_epoch,val_accuracy,val_bce,selection_metric
+10,1,2,0.005,6,0.6765498652291105,0.6281962607400703,validation Q4-Q10 position-averaged accuracy
+10,2,2,0.005,10,0.6489218328840971,0.6355895148405667,validation Q4-Q10 position-averaged accuracy
+10,3,2,0.005,7,0.6401617250673856,0.6442537053984642,validation Q4-Q10 position-averaged accuracy
+10,4,1,0.001,4,0.6273584905660378,0.6562338020961834,validation Q4-Q10 position-averaged accuracy
+10,5,1,0.005,5,0.6610512129380054,0.6420674335441676,validation Q4-Q10 position-averaged accuracy
+20,1,1,0.005,8,0.6716316858496952,0.6324905163156996,validation Q4-Q10 position-averaged accuracy
+20,2,2,0.005,7,0.6567366283006094,0.6377719060494202,validation Q4-Q10 position-averaged accuracy
+20,3,2,0.005,10,0.6872037914691943,0.6144449540009437,validation Q4-Q10 position-averaged accuracy
+20,4,1,0.001,3,0.6580907244414353,0.6476790817652154,validation Q4-Q10 position-averaged accuracy
+20,5,1,0.001,7,0.6614759647935003,0.6337002147722376,validation Q4-Q10 position-averaged accuracy
+50,1,2,0.005,2,0.6744505494505494,0.6410948336949828,validation Q4-Q10 position-averaged accuracy
+50,2,2,0.005,7,0.6717032967032968,0.6274896032037967,validation Q4-Q10 position-averaged accuracy
+50,3,2,0.005,9,0.6751373626373626,0.6269861495759508,validation Q4-Q10 position-averaged accuracy
+50,4,2,0.005,7,0.6978021978021979,0.6195171214613888,validation Q4-Q10 position-averaged accuracy
+50,5,1,0.005,9,0.668956043956044,0.6258695248600753,validation Q4-Q10 position-averaged accuracy
